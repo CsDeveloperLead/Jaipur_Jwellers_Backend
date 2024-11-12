@@ -8,7 +8,7 @@ const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
 
-router.route('/').get(getAllProducts)
+router.route('/get-all-products').get(getAllProducts)
 router.route('/:id').get(getSingleProduct)
 router.route('/create-product').post(upload.fields([
     { name: "Image", maxCount: 1 },

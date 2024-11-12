@@ -5,7 +5,7 @@ import mongoose from "mongoose";
 export const getAllProducts = async (req, res) => {
     try {
         if (!req.query.page && !req.query.limit) {
-            const products = await Product.find();
+            const products = await Product.find().select('-Image -Image1 -Image2 -Image3'); 
             // console.log(products);
             return res.status(200).json(products);
         }
@@ -14,7 +14,7 @@ export const getAllProducts = async (req, res) => {
         const limit = parseInt(req.query.limit) || 9;
         const skip = (page - 1) * limit;
 
-        const productList = await Product.find().skip(skip).limit(limit);
+        const productList = await Product.find().skip(skip).limit(limit).select('-Image -Image1 -Image2 -Image3'); 
         const totalProducts = await Product.countDocuments();
 
         res.status(200).json({
