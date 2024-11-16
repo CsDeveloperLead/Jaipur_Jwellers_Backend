@@ -1,11 +1,8 @@
 import Router from 'express'
 import { createProduct, deleteProduct, getAllProducts, getSingleProduct, updateProduct } from '../controllers/product.controller.js'
-import multer from 'multer';
+import { upload } from '../middleware/multer.middleware.js'
 
 const router = Router()
-
-const storage = multer.memoryStorage();
-const upload = multer({ storage: storage });
 
 
 router.route('/get-all-products').get(getAllProducts)

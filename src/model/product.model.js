@@ -22,20 +22,16 @@ const productSchema = Schema({
         required: true,
     },
     Image: {
-        type: Buffer, // Store main image as binary data
-        default: null,
+        type: String,
     },
     Image1: {
-        type: Buffer, // Store additional images as binary data
-        default: null,
+        type: String,
     },
     Image2: {
-        type: Buffer, // Store additional images as binary data
-        default: null,
+        type: String,
     },
     Image3: {
-        type: Buffer, // Store additional images as binary data
-        default: null,
+        type: String,
     },
     desc: {
         type: String,
@@ -56,6 +52,31 @@ const productSchema = Schema({
         type: Date,
         default: Date.now,
     },
+    model: {
+        type: String,
+        required: true,
+    },
+    weight: {
+        type: String,
+        required: true,
+    },
+    width: {
+        type: String,
+        required: true,
+    },
+    height: {
+        type: String,
+        required: true,
+    },
+    depth: {
+        type: String,
+        required: true,
+    },
+    details: [
+        {
+            details: { type: String }
+        }
+    ]
 });
 
 // Exporting the model
