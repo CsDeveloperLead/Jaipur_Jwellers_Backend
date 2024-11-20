@@ -1,4 +1,4 @@
-import { Admin } from "../model/Admin.model.js"
+import { Admin } from "../model/admin.model.js";
 import jwt from 'jsonwebtoken'
 
 
