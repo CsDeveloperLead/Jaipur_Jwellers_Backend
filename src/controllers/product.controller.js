@@ -158,11 +158,15 @@ export const updateProduct = async (req, res) => {
             category,
             countInStock,
             quantityPrices,
-            details,  // Added `details` field from request body
+            model,
+            weight,
+            width,
+            height,
+            depth,
+            details
         } = req.body;
 
-        const updateData = {};
-
+        // Check if the product exists
         const isProductExist = await Product.findOne({ product_id });
         if (!isProductExist) {
             return res.status(404).json({
@@ -171,45 +175,39 @@ export const updateProduct = async (req, res) => {
             });
         }
 
+        const updateData = {};
+
+        // Update fields if provided
         if (name) updateData.name = name;
         if (desc) updateData.desc = desc;
         if (category) updateData.category = category;
         if (countInStock) updateData.countInStock = countInStock;
+        if (model) updateData.model = model;
+        if (weight) updateData.weight = weight;
+        if (width) updateData.width = width;
+        if (height) updateData.height = height;
+        if (depth) updateData.depth = depth;
         if (quantityPrices) updateData.quantityPrices = JSON.parse(quantityPrices);
-
-        // Handling the details field transformation if it is present in the request body
         if (details) {
-            // Transform details: ensure it's an array of strings (flattening)
-            updateData.details = details.map(detailObj => detailObj.details);
+            updateData.details = JSON.parse(details).map(detail => ({ details: detail }));
         }
 
-        // Handling Image updates (same as before)
-        if (req?.files?.Image) {
-            const image = req.files.Image[0];
-            const imageUpload = await uploadOnCloudinary(image.path);
-            if (imageUpload?.secure_url) {
-                updateData.Image = imageUpload.secure_url;
+        if (req.files) {
+            if (req.files.Image) {
+                const image = await uploadOnCloudinary(req.files.Image[0].path);
+                updateData.Image = image.secure_url;
             }
-        }
-        if (req?.files?.Image1) {
-            const image = req.files.Image1[0];
-            const imageUpload = await uploadOnCloudinary(image.path);
-            if (imageUpload?.secure_url) {
-                updateData.Image1 = imageUpload.secure_url;
+            if (req.files.Image1) {
+                const image1 = await uploadOnCloudinary(req.files.Image1[0].path);
+                updateData.Image1 = image1.secure_url;
             }
-        }
-        if (req?.files?.Image2) {
-            const image = req.files.Image2[0];
-            const imageUpload = await uploadOnCloudinary(image.path);
-            if (imageUpload?.secure_url) {
-                updateData.Image2 = imageUpload.secure_url;
+            if (req.files.Image2) {
+                const image2 = await uploadOnCloudinary(req.files.Image2[0].path);
+                updateData.Image2 = image2.secure_url;
             }
-        }
-        if (req?.files?.Image3) {
-            const image = req.files.Image3[0];
-            const imageUpload = await uploadOnCloudinary(image.path);
-            if (imageUpload?.secure_url) {
-                updateData.Image3 = imageUpload.secure_url;
+            if (req.files.Image3) {
+                const image3 = await uploadOnCloudinary(req.files.Image3[0].path);
+                updateData.Image3 = image3.secure_url;
             }
         }
 
