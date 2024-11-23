@@ -2,6 +2,7 @@ import { User } from "../model/user.model.js";
 import jwt from 'jsonwebtoken';
 import twilio from 'twilio'
 import { OAuth2Client } from 'google-auth-library'
+import { sendContactToAdmin } from "./emailServices.js";
 
 // const accountSid = process.env.TWILIO_ACCOUNT_SID; // Your Twilio Account SID
 // const authToken = process.env.TWILIO_AUTH_TOKEN; // Your Twilio Auth Token
@@ -209,4 +210,24 @@ export const forgetPasswordVerifyOtp = async (req, res) => {
     } catch (e) {
         return res.status(404).json({ message: "Error in Verifying OTP: " + e.message });
     }
+}
+
+export const userContact = async (req, res) => {
+    const { name, email, subject } = req.body
+
+    if (!name || !email || !subject) {
+        return res.status(422).json({ message: "Please fill all the fields." });
+    }
+
+    const MainSubject = `${name} - Mail from website`
+
+    await sendContactToAdmin(email, subject, MainSubject)
+
+    return res
+        .status(200)
+        .json({
+            message: "Mail send successfully: ",
+            success: true,
+        })
+
 }

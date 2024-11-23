@@ -1,5 +1,5 @@
 import Router from 'express'
-import { forgetPasswordReset, forgetPasswordSendOtp, forgetPasswordVerifyOtp, login, signup } from '../controllers/user.controller.js';
+import { forgetPasswordReset, forgetPasswordSendOtp, forgetPasswordVerifyOtp, login, signup, userContact } from '../controllers/user.controller.js';
 
 const router = Router()
 
@@ -15,6 +15,8 @@ router.route("/forgot-password/reset-password").post(forgetPasswordReset)
 
 // Route to verify OTP
 router.route("/forgot-password/verify-otp").post(forgetPasswordVerifyOtp)
+
+router.route("/send-mail").post(userContact)
 
 
 export default router
