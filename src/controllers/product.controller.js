@@ -95,7 +95,10 @@ export const createProduct = async (req, res) => {
             width,
             height,
             depth,
-            details
+            details,
+            image1Color,
+            image2Color,
+            image3Color
         } = req.body;
 
         if (!req.files?.Image || !req.files?.Image1 || !req.files?.Image2 || !req.files?.Image3) {
@@ -121,9 +124,18 @@ export const createProduct = async (req, res) => {
             details: JSON.parse(details).map(detail => ({ details: detail })),
             quantityPrices: JSON.parse(quantityPrices),
             Image: image.secure_url,
-            Image1: image1.secure_url,
-            Image2: image2.secure_url,
-            Image3: image3.secure_url
+            Image1: {
+                image: image1.secure_url,
+                color: image1Color
+            },
+            Image2: {
+                image: image2.secure_url,
+                color: image2Color
+            },
+            Image3: {
+                image: image3.secure_url,
+                color: image3Color
+            }
         };
 
         const isProductExist = await Product.findOne({ product_id });
@@ -163,7 +175,10 @@ export const updateProduct = async (req, res) => {
             width,
             height,
             depth,
-            details
+            details,
+            image1Color,
+            image2Color,
+            image3Color
         } = req.body;
 
         // Check if the product exists
@@ -187,6 +202,9 @@ export const updateProduct = async (req, res) => {
         if (width) updateData.width = width;
         if (height) updateData.height = height;
         if (depth) updateData.depth = depth;
+        if (image1Color) updateData.Image1.color = image1Color;
+        if (image2Color) updateData.Image2.color = image2Color;
+        if (image3Color) updateData.Image3.color = image3Color;
         if (quantityPrices) updateData.quantityPrices = JSON.parse(quantityPrices);
         if (details) {
             updateData.details = JSON.parse(details).map(detail => ({ details: detail }));
@@ -199,15 +217,15 @@ export const updateProduct = async (req, res) => {
             }
             if (req.files.Image1) {
                 const image1 = await uploadOnCloudinary(req.files.Image1[0].path);
-                updateData.Image1 = image1.secure_url;
+                updateData.Image1.image = image1.secure_url;
             }
             if (req.files.Image2) {
                 const image2 = await uploadOnCloudinary(req.files.Image2[0].path);
-                updateData.Image2 = image2.secure_url;
+                updateData.Image2.image = image2.secure_url;
             }
             if (req.files.Image3) {
                 const image3 = await uploadOnCloudinary(req.files.Image3[0].path);
-                updateData.Image3 = image3.secure_url;
+                updateData.Image3.image = image3.secure_url;
             }
         }
 

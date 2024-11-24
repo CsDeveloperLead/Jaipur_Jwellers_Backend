@@ -25,13 +25,28 @@ const productSchema = Schema({
         type: String,
     },
     Image1: {
-        type: String,
+        image: {
+            type: String,
+        },
+        color: {
+            type: String,
+        }
     },
     Image2: {
-        type: String,
+        image: {
+            type: String,
+        },
+        color: {
+            type: String,
+        }
     },
     Image3: {
-        type: String,
+        image: {
+            type: String,
+        },
+        color: {
+            type: String,
+        }
     },
     desc: {
         type: String,
