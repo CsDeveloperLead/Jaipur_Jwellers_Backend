@@ -202,9 +202,9 @@ export const updateProduct = async (req, res) => {
         if (width) updateData.width = width;
         if (height) updateData.height = height;
         if (depth) updateData.depth = depth;
-        if (image1Color) updateData.Image1.color = image1Color;
-        if (image2Color) updateData.Image2.color = image2Color;
-        if (image3Color) updateData.Image3.color = image3Color;
+        if (image1Color) updateData["Image1.color"] = image1Color;
+        if (image2Color) updateData["Image2.color"] = image2Color;
+        if (image3Color) updateData["Image3.color"] = image3Color;
         if (quantityPrices) updateData.quantityPrices = JSON.parse(quantityPrices);
         if (details) {
             updateData.details = JSON.parse(details).map(detail => ({ details: detail }));
